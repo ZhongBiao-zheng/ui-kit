@@ -53,6 +53,8 @@
       "title": "UI 规范规则（随上游更新）",
       "description": "ESLint 规则模块、token 生成脚本、守卫测试与规范文档",
       "devDependencies": [
+        "shadcn@4.23.0",
+        "typescript@^5.6.3",
         "@google/design.md@^0.4.0",
         "vitest@^2.1.5",
         "eslint@^10.13.0",
@@ -70,6 +72,16 @@
           "path": "scripts/tokens.mjs",
           "type": "registry:file",
           "target": "~/scripts/tokens.mjs"
+        },
+        {
+          "path": "scripts/ui-kit-doctor.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/ui-kit-doctor.mjs"
+        },
+        {
+          "path": "scripts/ui-kit-migrate.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/ui-kit-migrate.mjs"
         },
         {
           "path": "src/test/ratchet.test.ts",
@@ -110,6 +122,11 @@
           "path": "docs/design/workflow.md",
           "type": "registry:file",
           "target": "~/docs/design/workflow.md"
+        },
+        {
+          "path": "scripts/ui-kit.version.json",
+          "type": "registry:file",
+          "target": "~/scripts/ui-kit.version.json"
         }
       ]
     },

@@ -1,4 +1,5 @@
 // 从 src/components/ui 与基础文件生成 registry.json（依赖从 import 读出）。用法：pnpm registry
+import { createHash } from 'node:crypto';
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
@@ -60,20 +61,31 @@ const base = {
 };
 
 // 跟随上游的文件：项目里不改，用 shadcn add @biao/rules --overwrite 更新
+const RULES_FILES = [
+  'eslint.ui-kit.js',
+  'scripts/tokens.mjs',
+  'scripts/ui-kit-doctor.mjs',
+  'scripts/ui-kit-migrate.mjs',
+  'src/test/ratchet.test.ts',
+  'src/test/pageLayoutGuard.test.ts',
+  'src/test/tokensSync.test.ts',
+  ...readdirSync(`${root}docs/design`).map(name => `docs/design/${name}`),
+];
+// 版本号 = rules 文件内容的哈希，doctor 拿它和线上比较
+const version = createHash('sha256')
+  .update(RULES_FILES.map(path => readFileSync(`${root}${path}`, 'utf-8')).join('\0'))
+  .digest('hex')
+  .slice(0, 10);
+writeFileSync(`${root}scripts/ui-kit.version.json`, `${JSON.stringify({ version, registry: 'https://zhongbiao-zheng.github.io/ui-kit/r' }, null, 2)}\n`);
+RULES_FILES.push('scripts/ui-kit.version.json');
+
 const rules = {
   name: 'rules',
   type: 'registry:item',
   title: 'UI 规范规则（随上游更新）',
   description: 'ESLint 规则模块、token 生成脚本、守卫测试与规范文档',
-  devDependencies: dev(['@google/design.md', 'vitest', 'eslint', 'typescript-eslint', 'eslint-plugin-react-hooks', 'eslint-plugin-better-tailwindcss']),
-  files: [
-    file('eslint.ui-kit.js'),
-    file('scripts/tokens.mjs'),
-    file('src/test/ratchet.test.ts'),
-    file('src/test/pageLayoutGuard.test.ts'),
-    file('src/test/tokensSync.test.ts'),
-    ...readdirSync(`${root}docs/design`).map(name => file(`docs/design/${name}`)),
-  ],
+  devDependencies: dev(['shadcn', 'typescript', '@google/design.md', 'vitest', 'eslint', 'typescript-eslint', 'eslint-plugin-react-hooks', 'eslint-plugin-better-tailwindcss']),
+  files: RULES_FILES.map(path => file(path)),
 };
 
 const storybook = {

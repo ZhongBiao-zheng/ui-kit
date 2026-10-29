@@ -23,6 +23,9 @@
 
 ## 5. 实现与验收（可交付的页面）
 
+- 改 UI 不在正在使用的实例目录里改（Vite 热更新会把改到一半的状态推给正在用的人）：用 git worktree 或先停掉实例。
+- 验证业务场景用演示数据（`pnpm dev:demo`）。项目里有真实敏感数据时，截图和日志不碰真实数据。
+
 1. 按 [页面状态规范](states.md) 覆盖加载、空、失败。
 2. `pnpm lint && pnpm test` 通过。
 3. 给新页面写 Storybook story（页面用 `PAGE_MODES`）。

@@ -28,31 +28,39 @@
    "registries": { "@biao": "https://zhongbiao-zheng.github.io/ui-kit/r/{name}.json" }
    ```
 
-2. 装底座和要用的组件（组件间依赖会自动带上）：
+2. 装底座（会连带装上 `@biao/rules` 和 shadcn CLI），再装要用的组件：
 
    ```bash
-   pnpm dlx shadcn@latest add @biao/base @biao/page-examples @biao/storybook
+   pnpm dlx shadcn@latest add @biao/base
+   pnpm exec shadcn add @biao/input @biao/select @biao/page-examples
    ```
 
-3. 样式入口加 `@import './tokens.css';`，应用根部挂一次 `<Toaster />`（`ui/sonner`）。
-4. `pnpm-workspace.yaml` 放行 esbuild（pnpm 11）：`allowBuilds: { esbuild: true }`。
-5. 改 `DESIGN.md` 的 Overview 与 colors，`node scripts/tokens.mjs` 重新生成 token。
-6. `package.json` 的 lint 加上 `eslint .`。存量项目首跑 `ratchet.test.ts`，把报错里的实际数量填进 `ui-kit.ratchet.json`；项目自己的 ESLint 调整追加在 `eslint.config.js` 的数组后面。
-7. 存量页面迁移原生控件：`Input` / `Textarea` / `Select` 先用 `variant="bare"` 保持原外观，再逐步收敛到默认配方。手写 CSS 类放进 `@layer components`，ESLint 才认得。
-8. Chromatic：在 chromatic.com 建项目，把 project token 配成环境变量 `CHROMATIC_PROJECT_TOKEN`（CI 用仓库 secret）。
+3. 跑检查，按提示逐项修到全部通过：
 
-单独补组件：`pnpm dlx shadcn@latest add @biao/<组件名>`。
+   ```bash
+   node scripts/ui-kit-doctor.mjs
+   ```
+
+4. 改 `DESIGN.md` 的 Overview 与 colors，`node scripts/tokens.mjs` 重新生成 token。
+5. 存量项目：
+   - `node scripts/ui-kit-migrate.mjs` 把原生 input / select / textarea 换成组件（`variant="bare"` 保持原外观，按项目的分号和引号风格写 import；有同名组件的文件会跳过）
+   - 手写 CSS 类放进 `@layer components`，ESLint 才认得
+   - 首跑 `pnpm test`，把棘轮报错里的实际数量填进 `ui-kit.ratchet.json`；项目自己的 ESLint 调整追加在 `eslint.config.js` 的数组后面
+6. 项目里有真实敏感数据时，提供 `pnpm dev:demo`（假数据 + 另一个端口），验证业务场景只用它。
+7. Chromatic：在 chromatic.com 建项目，把 project token 配成环境变量 `CHROMATIC_PROJECT_TOKEN`（CI 用仓库 secret）。
+
+单独补组件：`pnpm exec shadcn add @biao/<组件名>`。
 
 ## 更新
 
 在本仓库改完 → `pnpm lint && pnpm test` → 推送 main，Pages 自动发布。接入的项目拉取：
 
 ```bash
-pnpm dlx shadcn@latest add @biao/rules --overwrite        # 规则、脚本、守卫测试、规范文档
-pnpm dlx shadcn@latest add @biao/<组件名> --overwrite     # 组件
+pnpm exec shadcn add @biao/rules --overwrite        # 规则、脚本、守卫测试、规范文档
+pnpm exec shadcn add @biao/<组件名> --overwrite     # 组件
 ```
 
-用 git diff 看改了什么。`@biao/base` 的三个文件（`DESIGN.md`、`eslint.config.js`、`ui-kit.ratchet.json`）归项目自己管，接入后不要再 `--overwrite` 拉 base。
+用 git diff 看改了什么。`node scripts/ui-kit-doctor.mjs` 会比较本地 rules 与线上版本，过期时提示。`@biao/base` 的三个文件（`DESIGN.md`、`eslint.config.js`、`ui-kit.ratchet.json`）归项目自己管，接入后不要再 `--overwrite` 拉 base。
 
 ## 本仓库命令
 
