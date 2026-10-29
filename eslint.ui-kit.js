@@ -6,7 +6,7 @@ import betterTailwind from 'eslint-plugin-better-tailwindcss';
 import reactHooks from 'eslint-plugin-react-hooks';
 import tseslint from 'typescript-eslint';
 
-// Tailwind 入口 CSS 跟 components.json 走，各项目位置不同
+// Tailwind 入口 CSS 跟 components.json 走，各项目位置不同；detectComponentClasses 让 @layer components 里的手写类也被认得
 const entryPoint = JSON.parse(readFileSync('components.json', 'utf-8')).tailwind.css;
 
 const CLASS_RULES = [
@@ -46,7 +46,7 @@ export default tseslint.config(
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     plugins: { 'react-hooks': reactHooks, 'better-tailwindcss': betterTailwind },
-    settings: { 'better-tailwindcss': { entryPoint } },
+    settings: { 'better-tailwindcss': { entryPoint, detectComponentClasses: true } },
     rules: {
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'error',
