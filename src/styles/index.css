@@ -5,6 +5,9 @@
   html {
     background: var(--color-background);
     color: var(--color-foreground);
+  }
+  /* 字号设在 body：设在 html 会改 rem，连带缩小全部间距 */
+  body {
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
   }

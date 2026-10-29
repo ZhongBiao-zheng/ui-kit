@@ -126,7 +126,7 @@ components:
 
 ## Layout
 
-间距用 Tailwind 4px 刻度：控件内 `gap-2`，表单字段之间 `gap-4`，区块之间 `gap-8`；卡片与弹窗内边距 `p-5`，页面主区 `p-6`。表单用 `Field` 组件排版（标签在上、提示在下）。
+间距用 Tailwind 4px 刻度：控件内 `gap-2`，表单字段之间 `gap-4`，区块之间 `gap-8`；卡片与弹窗内边距 `p-5`。页面宽度、边距、区块间距由 `Page` 统一（设置 `narrow` 672px、列表与详情 `default` 1024px、画布 `full`），手机宽度左右 16px。表单用 `Field` 组件排版（标签在上、提示在下）。
 
 ## Elevation
 
@@ -143,6 +143,7 @@ components:
 - 按钮：`Button`，variant 为 default / secondary / outline / ghost / destructive / link。
 - 输入：`Input`、`SecretInput`、`Textarea`、`Select`、`Checkbox`、`Radio`、`Switch`、`Slider`、`FileInput`，自带关闭浏览器与密码管理器自动填充。
 - 表单行：`Field`（标签 + 控件 + 提示或错误）。
+- 页面：`Page`、`PageHeader`、`Section`、`ItemGroup` / `Item`、`Table`，设置页与列表页的搭法见 `docs/design/layouts.md`。
 - 表面：`Card`、`Dialog`、`Badge`。
 - 状态：`Skeleton`、`Spinner`、`Empty`、`Alert`、`toast`、`AlertDialog`，何时用哪个见 `docs/design/states.md`。
 

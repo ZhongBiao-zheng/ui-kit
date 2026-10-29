@@ -13,6 +13,8 @@ import { Field } from '@/components/ui/field';
 import { FileInput } from '@/components/ui/file-input';
 import { Input } from '@/components/ui/input';
 import { SecretInput } from '@/components/ui/secret-input';
+import { Page, PageHeader } from '@/components/ui/page';
+import { Section } from '@/components/ui/section';
 import { Select } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Slider } from '@/components/ui/slider';
@@ -20,6 +22,8 @@ import { toast } from '@/components/ui/sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import { ListExample } from './examples/ListExample';
+import { SettingsExample } from './examples/SettingsExample';
 
 const BUTTON_VARIANTS = ['default', 'secondary', 'outline', 'ghost', 'destructive', 'link'] as const;
 const BUTTON_SIZES = ['sm', 'default', 'lg'] as const;
@@ -76,15 +80,6 @@ function ProviderList({ state, onRetry }: { state: ListState; onRetry: () => voi
 
 const BADGE_VARIANTS = ['default', 'secondary', 'outline', 'success', 'warning', 'destructive'] as const;
 
-function Section({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section className="grid gap-4">
-      <h2 className="text-xs text-muted-foreground">{title}</h2>
-      {children}
-    </section>
-  );
-}
-
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-4">
@@ -94,9 +89,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-/** 组件样例页：新页面先对照这里，缺什么先补进 components/ui。 */
-export function Kit() {
-  const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
+function ComponentsView() {
   const [revealed, setRevealed] = useState(false);
   const [enabled, setEnabled] = useState(true);
   const [size, setSize] = useState(40);
@@ -117,19 +110,9 @@ export function Kit() {
     toast.error('网关连接失败，检查地址后重试', { action: { label: '重试', onClick: () => toast.success('已重新连接') } });
   }
 
-  function toggleTheme() {
-    document.documentElement.classList.toggle('dark', !dark);
-    setDark(!dark);
-  }
-
   return (
-    <div className="mx-auto grid max-w-3xl gap-8 p-6">
-      <header className="flex items-center justify-between">
-        <h1 className="text-lg">Kit</h1>
-        <Button variant="ghost" size="icon" aria-label={dark ? '切换到浅色' : '切换到深色'} onClick={toggleTheme}>
-          {dark ? <Sun aria-hidden /> : <Moon aria-hidden />}
-        </Button>
-      </header>
+    <Page width="narrow">
+      <PageHeader title="组件" />
 
       <Section title="按钮">
         {BUTTON_SIZES.map(sizeName => (
@@ -226,6 +209,38 @@ export function Kit() {
           </DialogContent>
         </Dialog>
       </Section>
-    </div>
+    </Page>
+  );
+}
+
+const VIEWS = [
+  { id: 'components', label: '组件', View: ComponentsView },
+  { id: 'settings', label: '设置页', View: SettingsExample },
+  { id: 'list', label: '列表页', View: ListExample },
+] as const;
+
+/** 样例入口：组件与页面样板。新页面先对照这里，缺什么先补进 components/ui。 */
+export function Kit() {
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
+  const [view, setView] = useState<(typeof VIEWS)[number]['id']>('components');
+  const { View } = VIEWS.find(item => item.id === view)!;
+
+  function toggleTheme() {
+    document.documentElement.classList.toggle('dark', !dark);
+    setDark(!dark);
+  }
+
+  return (
+    <>
+      <nav className="sticky top-0 z-10 flex items-center gap-1 border-b border-border bg-background px-4 py-2 sm:px-6">
+        {VIEWS.map(item => (
+          <Button key={item.id} size="sm" variant={view === item.id ? 'secondary' : 'ghost'} aria-current={view === item.id ? 'page' : undefined} onClick={() => setView(item.id)}>{item.label}</Button>
+        ))}
+        <Button variant="ghost" size="icon" className="ml-auto" aria-label={dark ? '切换到浅色' : '切换到深色'} onClick={toggleTheme}>
+          {dark ? <Sun aria-hidden /> : <Moon aria-hidden />}
+        </Button>
+      </nav>
+      <View />
+    </>
   );
 }
