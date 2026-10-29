@@ -1,0 +1,550 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "biao",
+  "homepage": "https://zhongbiao-zheng.github.io/ui-kit",
+  "items": [
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.6.0"
+      ],
+      "files": [
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "base",
+      "type": "registry:item",
+      "title": "UI 规范底座",
+      "description": "DESIGN.md、token 生成脚本、ESLint 规则、棘轮测试与规范文档",
+      "dependencies": [
+        "@fontsource-variable/inter@^5.3.0",
+        "@fontsource-variable/noto-sans-sc@^5.3.1"
+      ],
+      "devDependencies": [
+        "@google/design.md@^0.4.0",
+        "vitest@^2.1.5",
+        "eslint@^10.13.0",
+        "typescript-eslint@^8.72.1",
+        "eslint-plugin-react-hooks@^7.1.1",
+        "eslint-plugin-better-tailwindcss@^4.10.0"
+      ],
+      "files": [
+        {
+          "path": "DESIGN.md",
+          "type": "registry:file",
+          "target": "~/DESIGN.md"
+        },
+        {
+          "path": "scripts/tokens.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/tokens.mjs"
+        },
+        {
+          "path": "src/styles/tokens.css",
+          "type": "registry:file",
+          "target": "~/src/styles/tokens.css"
+        },
+        {
+          "path": "eslint.config.js",
+          "type": "registry:file",
+          "target": "~/eslint.config.js"
+        },
+        {
+          "path": "src/test/ratchet.test.ts",
+          "type": "registry:file",
+          "target": "~/src/test/ratchet.test.ts"
+        },
+        {
+          "path": "src/test/pageLayoutGuard.test.ts",
+          "type": "registry:file",
+          "target": "~/src/test/pageLayoutGuard.test.ts"
+        },
+        {
+          "path": "src/test/tokensSync.test.ts",
+          "type": "registry:file",
+          "target": "~/src/test/tokensSync.test.ts"
+        },
+        {
+          "path": "docs/design/components.md",
+          "type": "registry:file",
+          "target": "~/docs/design/components.md"
+        },
+        {
+          "path": "docs/design/layouts.md",
+          "type": "registry:file",
+          "target": "~/docs/design/layouts.md"
+        },
+        {
+          "path": "docs/design/review.md",
+          "type": "registry:file",
+          "target": "~/docs/design/review.md"
+        },
+        {
+          "path": "docs/design/states.md",
+          "type": "registry:file",
+          "target": "~/docs/design/states.md"
+        },
+        {
+          "path": "docs/design/workflow.md",
+          "type": "registry:file",
+          "target": "~/docs/design/workflow.md"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "dependencies": [
+        "@radix-ui/react-alert-dialog@^1.2.1"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base",
+        "@biao/button"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "dependencies": [
+        "@radix-ui/react-slot@^1.2.4",
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "dependencies": [
+        "@radix-ui/react-dialog@^1.1.23",
+        "lucide-react@^1.16.0"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/empty.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base",
+        "@biao/label"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "file-input",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/file-input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "dependencies": [
+        "@radix-ui/react-slot@^1.2.4",
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/item.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "dependencies": [
+        "@radix-ui/react-label@^2.1.8"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "page",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/page.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "secret-input",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base",
+        "@biao/input"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/secret-input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "section",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/section.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "dependencies": [
+        "lucide-react@^1.16.0"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base",
+        "@biao/input"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "dependencies": [
+        "sonner@^2.0.8"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sonner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "dependencies": [
+        "lucide-react@^1.16.0"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/base",
+        "@biao/input"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "page-examples",
+      "type": "registry:item",
+      "title": "页面样板",
+      "description": "设置页与列表页样板，新页面从这里复制",
+      "registryDependencies": [
+        "@biao/badge",
+        "@biao/button",
+        "@biao/field",
+        "@biao/input",
+        "@biao/item",
+        "@biao/page",
+        "@biao/section",
+        "@biao/select",
+        "@biao/sonner",
+        "@biao/switch",
+        "@biao/table"
+      ],
+      "files": [
+        {
+          "path": "src/pages/examples/ListExample.tsx",
+          "type": "registry:file",
+          "target": "~/src/pages/examples/ListExample.tsx"
+        },
+        {
+          "path": "src/pages/examples/SettingsExample.tsx",
+          "type": "registry:file",
+          "target": "~/src/pages/examples/SettingsExample.tsx"
+        }
+      ]
+    },
+    {
+      "name": "storybook",
+      "type": "registry:item",
+      "title": "Storybook + Chromatic",
+      "description": "主题与视口工具栏、Chromatic 快照组合（组件 2 张，页面 4 张）",
+      "devDependencies": [
+        "storybook@^10.6.5",
+        "@storybook/react-vite@^10.6.5",
+        "chromatic@^18.13.4"
+      ],
+      "files": [
+        {
+          "path": ".storybook/main.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/main.ts"
+        },
+        {
+          "path": ".storybook/preview.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/preview.tsx"
+        },
+        {
+          "path": ".storybook/modes.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/modes.ts"
+        }
+      ]
+    }
+  ]
+}

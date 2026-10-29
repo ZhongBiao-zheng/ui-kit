@@ -4,3 +4,5 @@ dist
 memory/
 storybook-static
 *storybook.log
+public/r
+site

@@ -1,37 +1,58 @@
 # ui-kit
 
-个人产品的 UI 规范模板。三层：
+个人产品的 UI 规范，以 [shadcn registry](https://ui.shadcn.com/docs/registry) 分发。
 
-1. **Token**：`DESIGN.md`（YAML token + 设计理由）是唯一来源，`pnpm tokens` 生成 `src/styles/tokens.css`。
-2. **组件**：`src/components/ui/` 语义组件，沿用 shadcn/ui（new-york）的写法与字号命名，属性写死在组件里（例如 `SecretInput` 不会触发浏览器保存密码）。页面状态的用法见 `docs/design/states.md`。
-3. **守卫**：`src/test/` 下三个 vitest 测试——设计漂移、原生控件、token 同步。
+- **Storybook**：https://zhongbiao-zheng.github.io/ui-kit/storybook/
+- **Registry**：`https://zhongbiao-zheng.github.io/ui-kit/r/{name}.json`
 
-4. **评审**：守卫拦不住的观感问题，交付前按 `docs/design/review.md` 截图评审。
+## 组成
 
-技术栈：React 18 + TypeScript + Vite + Tailwind v4 + Radix + vitest。
+| 层 | 内容 |
+|---|---|
+| 设计起步 | Mobbin 找参考 → Claude Design 出稿 → 按本规范实现（`docs/design/workflow.md`） |
+| Token | `DESIGN.md`（YAML token + 设计理由）是唯一来源，`pnpm tokens` 生成 `src/styles/tokens.css` |
+| 组件 | `src/components/ui/`，shadcn/ui（new-york）写法与字号命名，属性写死在组件里 |
+| 规范文档 | `docs/design/`：组件选用、页面状态、页面骨架、视觉评审 |
+| 执行 | `eslint.config.js` 实时拦截违规写法；`src/test/` 棘轮、token 同步、页面外壳 |
+| 视觉回归 | Storybook + Chromatic：组件截浅色 / 深色，页面样板截 1280 / 375 × 浅色 / 深色 |
 
-## 新项目
+技术栈：React 18 + TypeScript + Vite + Tailwind v4 + Radix + ESLint + vitest + Storybook 10。
+
+## 接入项目
+
+前提：React + Vite + Tailwind v4，已有 `components.json`（没有就先 `pnpm dlx shadcn@latest init`）。
+
+1. `components.json` 加命名空间：
+
+   ```json
+   "registries": { "@biao": "https://zhongbiao-zheng.github.io/ui-kit/r/{name}.json" }
+   ```
+
+2. 装底座和要用的组件（组件间依赖会自动带上）：
+
+   ```bash
+   pnpm dlx shadcn@latest add @biao/base @biao/page-examples @biao/storybook
+   ```
+
+3. 样式入口加 `@import './tokens.css';`，应用根部挂一次 `<Toaster />`（`ui/sonner`）。
+4. `pnpm-workspace.yaml` 放行 esbuild（pnpm 11）：`allowBuilds: { esbuild: true }`。
+5. 改 `DESIGN.md` 的 Overview 与 colors，`node scripts/tokens.mjs` 重新生成 token。
+6. `package.json` 的 lint 加上 `eslint .`。存量项目首跑 `ratchet.test.ts`，把报错里的实际数量填成基线。
+7. Chromatic：在 chromatic.com 建项目，把 project token 配成环境变量 `CHROMATIC_PROJECT_TOKEN`（CI 用仓库 secret）。
+
+单独补组件：`pnpm dlx shadcn@latest add @biao/<组件名>`。
+
+## 更新组件
+
+在本仓库改完 → `pnpm lint && pnpm test` → 推送 main，Pages 自动发布。接入的项目重新 `shadcn add @biao/<组件名> --overwrite` 拉取，用 git diff 看改了什么。
+
+## 本仓库命令
 
 ```bash
-git clone ~/Projects/ui-kit <新项目路径>
+pnpm dev               # Kit 样例页
+pnpm storybook         # Storybook
+pnpm tokens            # DESIGN.md → tokens.css
+pnpm registry          # 生成 registry.json 并构建 public/r
+pnpm lint && pnpm test
+pnpm chromatic         # 需要 CHROMATIC_PROJECT_TOKEN
 ```
-
-1. 进入新目录，`git remote remove origin` 后 `pnpm install`。
-2. 改 `DESIGN.md` 的 Overview（写具体参照对象）与 colors，运行 `pnpm tokens`。
-3. `main.tsx` 换成产品入口；Kit 保留为开发期路由（`import.meta.env.DEV` 时挂载）。
-4. 把 `CLAUDE.md` 的「规则」节并入项目 CLAUDE.md / AGENTS.md。
-
-## 存量项目接入
-
-前提：已用 React + Tailwind v4 + vitest。
-
-1. 复制 `DESIGN.md`、`components.json`、`scripts/tokens.mjs`、`src/components/ui/`、`src/lib/utils.ts`、`src/test/*.test.ts`、`docs/design/`。
-2. 补依赖：`@google/design.md`、`@radix-ui/react-alert-dialog`、`@radix-ui/react-dialog`、`@radix-ui/react-label`、`@radix-ui/react-slot`、`class-variance-authority`、`clsx`、`tailwind-merge`、`lucide-react`、`sonner`、`@fontsource-variable/inter`、`@fontsource-variable/noto-sans-sc`。
-3. 应用根部挂一次 `<Toaster />`（`ui/sonner`）。
-4. 把项目现有色值、字号、圆角搬进 `DESIGN.md`，`pnpm tokens`，样式入口 `@import './tokens.css'`。
-5. 迁移原生 `input` / `select` / `textarea` 到组件（参考 game-atelier 359d40ff：先 `variant="bare"` 保持外观，再逐步收敛）。
-6. 首跑守卫，把原生 button、bare 控件、任意值间距的实际数量填进 `nativeControlsGuard.test.ts` 的基线。
-
-## 补组件
-
-`components.json` 已配好，可用 `pnpm dlx shadcn@latest add <组件>` 拉 shadcn 源码。拉下来后按守卫改：去掉 `shadow-*` 与 `dark:` 变体，字号只留 xs / sm / base / lg，再登记到 `docs/design/components.md` 与 Kit。

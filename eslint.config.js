@@ -33,7 +33,7 @@ const NATIVE_CONTROLS = [
 ];
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'storybook-static/**', 'public/**', 'node_modules/**'] },
+  { ignores: ['dist/**', 'storybook-static/**', 'site/**', 'public/**', 'node_modules/**'] },
   {
     files: ['src/**/*.{ts,tsx}'],
     languageOptions: {

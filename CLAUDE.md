@@ -8,10 +8,14 @@
 pnpm dev           # Kit 样例页
 pnpm tokens        # DESIGN.md → src/styles/tokens.css
 pnpm design:lint   # DESIGN.md 结构与对比度检查
+pnpm registry      # 生成并构建 registry
+pnpm storybook     # Storybook
 pnpm lint && pnpm test
 ```
 
 ## 规则
+
+- 界面工作顺序见 `docs/design/workflow.md`：页面清单 → Mobbin 参考 → Claude Design 出稿 → 映射到规范 → 实现与验收。
 
 - 改视觉先改 `DESIGN.md`，再 `pnpm tokens`；`src/styles/tokens.css` 不手改。
 - 页面只组合 `src/components/ui/`，选用见 `docs/design/components.md`。
@@ -19,4 +23,4 @@ pnpm lint && pnpm test
 - 读写数据的界面按 `docs/design/states.md` 覆盖加载、空、失败与操作反馈。
 - 新增或修改组件后同步更新 Kit 样例页与 `docs/design/components.md`。
 - 新页面或明显的 UI 改动，交付前按 `docs/design/review.md` 截图评审，必修项修完再交付。
-- 这里的改动是模板，已接入的项目不会自动更新；接入方式见 README。
+- 本仓库是 shadcn registry（`@biao`）。改组件后 `pnpm registry` 能构建通过再推送；接入的项目用 `shadcn add @biao/<名> --overwrite` 拉取更新。

@@ -45,4 +45,5 @@
 
 1. 文件放 `src/components/ui/<kebab-name>.tsx`，`React.forwardRef` + `cn(默认配方, className)`。
 2. 文字类输入展开 `NO_AUTOFILL`（`ui/input.tsx` 导出）。
-3. 在本页「选用」表登记一行，并加进 Kit 样例页。
+3. 在本页「选用」表登记一行，加进 Kit 样例页并写 Storybook story。
+4. `pnpm registry` 构建通过后推送，registry 自动收录。
