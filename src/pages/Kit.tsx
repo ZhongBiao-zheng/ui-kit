@@ -22,7 +22,7 @@ const BADGE_VARIANTS = ['default', 'secondary', 'outline', 'success', 'warning',
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="grid gap-4">
-      <h2 className="text-caption text-muted-foreground">{title}</h2>
+      <h2 className="text-xs text-muted-foreground">{title}</h2>
       {children}
     </section>
   );
@@ -31,7 +31,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-4">
-      <span className="text-caption text-muted-foreground">{label}</span>
+      <span className="text-xs text-muted-foreground">{label}</span>
       <div className="flex min-w-0 flex-wrap items-center gap-3">{children}</div>
     </div>
   );
@@ -54,7 +54,7 @@ export function Kit() {
   return (
     <div className="mx-auto grid max-w-3xl gap-8 p-6">
       <header className="flex items-center justify-between">
-        <h1 className="text-heading">Kit</h1>
+        <h1 className="text-lg">Kit</h1>
         <Button variant="ghost" size="icon" aria-label={dark ? '切换到浅色' : '切换到深色'} onClick={toggleTheme}>
           {dark ? <Sun aria-hidden /> : <Moon aria-hidden />}
         </Button>

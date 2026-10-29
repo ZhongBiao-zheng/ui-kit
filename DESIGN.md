@@ -4,7 +4,9 @@ description: 飙哥产品的默认界面规范，新项目从这里复制后按�
 colors:
   background: "#FFFFFF"
   foreground: "#18181B"
+  card-foreground: "#18181B"
   card: "#FFFFFF"
+  popover-foreground: "#18181B"
   popover: "#FFFFFF"
   muted: "#F4F4F5"
   muted-foreground: "#65656D"
@@ -15,6 +17,7 @@ colors:
   primary-foreground: "#FFFFFF"
   secondary: "#F4F4F5"
   secondary-foreground: "#18181B"
+  accent-foreground: "#18181B"
   accent: "#F4F4F5"
   destructive: "#DC2626"
   destructive-foreground: "#FFFFFF"
@@ -23,7 +26,9 @@ colors:
   scrim: "#09090B99"
   dark-background: "#09090B"
   dark-foreground: "#FAFAFA"
+  dark-card-foreground: "#FAFAFA"
   dark-card: "#111113"
+  dark-popover-foreground: "#FAFAFA"
   dark-popover: "#18181B"
   dark-muted: "#18181B"
   dark-muted-foreground: "#A1A1AA"
@@ -34,6 +39,7 @@ colors:
   dark-primary-foreground: "#FFFFFF"
   dark-secondary: "#27272A"
   dark-secondary-foreground: "#FAFAFA"
+  dark-accent-foreground: "#FAFAFA"
   dark-accent: "#27272A"
   dark-destructive: "#EF4444"
   dark-destructive-foreground: "#FFFFFF"
@@ -41,25 +47,21 @@ colors:
   dark-warning: "#F59E0B"
   dark-scrim: "#000000A6"
 typography:
-  caption:
+  xs:
     fontFamily: Inter Variable
     fontSize: 12px
-    fontWeight: 400
     lineHeight: 16px
-  body:
+  sm:
     fontFamily: Inter Variable
     fontSize: 14px
-    fontWeight: 400
     lineHeight: 20px
-  title:
+  base:
     fontFamily: Inter Variable
     fontSize: 16px
-    fontWeight: 500
     lineHeight: 24px
-  heading:
+  lg:
     fontFamily: Inter Variable
-    fontSize: 20px
-    fontWeight: 600
+    fontSize: 18px
     lineHeight: 28px
 rounded:
   sm: 6px
@@ -113,14 +115,14 @@ components:
 
 ## Typography
 
-正文 Inter + Noto Sans SC，本地打包，不依赖系统字体与外部 CDN。只用四档字号：
+正文 Inter + Noto Sans SC，本地打包，不依赖系统字体与外部 CDN。字号档位与 Tailwind / shadcn 同名，只用四档：
 
-- `text-caption` 12px：元数据、标签、表单提示
-- `text-body` 14px：正文、按钮、输入
-- `text-title` 16px：区块标题、弹窗标题
-- `text-heading` 20px：页面标题，每页一处
+- `text-xs` 12px：元数据、标签、表单提示
+- `text-sm` 14px：正文、按钮、输入（默认）
+- `text-base` 16px：区块标题、弹窗标题
+- `text-lg` 18px：页面标题，每页一处
 
-层级不够时用字重（400 / 500 / 600）和 `text-muted-foreground`，不加字号档。数字列加 `tabular-nums`。
+层级不够时用字重（`font-medium` / `font-semibold`）和 `text-muted-foreground`，不加字号档。数字列加 `tabular-nums`。
 
 ## Layout
 
@@ -149,5 +151,5 @@ components:
 - ✅ 改视觉先改本文件，再 `pnpm tokens`
 - ❌ 页面里写原生 `input` / `select` / `textarea`
 - ❌ 敏感值用 `type="password"`，改用 `SecretInput`
-- ❌ 硬编码色值、`text-[13px]` 这类任意值字号、`shadow-*`、渐变
+- ❌ 硬编码色值、`text-xl` 以上与 `text-[13px]` 这类任意值字号、`shadow-*`、渐变
 - ❌ 紫蓝渐变、居中一切、三列图标卡片这类营销页套路

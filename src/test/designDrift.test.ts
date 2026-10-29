@@ -39,8 +39,8 @@ describe('设计漂移守卫（DESIGN.md）', () => {
     assertClean(/#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b|\brgba?\(|\bhsla?\(/, 'DESIGN.md § Colors');
   });
 
-  it('只用四档字号 text-caption/body/title/heading（§ Typography）', () => {
-    assertClean(/\btext-(?:\[\d|xs\b|sm\b|base\b|lg\b|\d?xl\b)/, 'DESIGN.md § Typography');
+  it('只用四档字号 text-xs/sm/base/lg（§ Typography）', () => {
+    assertClean(/\btext-(?:\[\d|\d?xl\b)/, 'DESIGN.md § Typography');
   });
 
   it('禁阴影（§ Elevation）', () => {

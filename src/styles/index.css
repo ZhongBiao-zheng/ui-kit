@@ -5,8 +5,8 @@
   html {
     background: var(--color-background);
     color: var(--color-foreground);
-    font-size: var(--text-body);
-    line-height: var(--text-body--line-height);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
   }
   * {
     border-color: var(--color-border);

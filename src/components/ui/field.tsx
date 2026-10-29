@@ -18,8 +18,8 @@ export function Field({ label, htmlFor, hint, error, className, children }: Fiel
     <div className={cn('grid gap-2', className)}>
       <Label htmlFor={htmlFor}>{label}</Label>
       {children}
-      {error ? <p role="alert" className="text-caption text-destructive">{error}</p>
-        : hint && <p className="text-caption text-muted-foreground">{hint}</p>}
+      {error ? <p role="alert" className="text-xs text-destructive">{error}</p>
+        : hint && <p className="text-xs text-muted-foreground">{hint}</p>}
     </div>
   );
 }
