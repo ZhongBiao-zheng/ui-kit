@@ -2,3 +2,5 @@ node_modules
 dist
 *.tsbuildinfo
 memory/
+storybook-static
+*storybook.log
