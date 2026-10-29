@@ -3,7 +3,7 @@
 个人产品的 UI 规范模板。三层：
 
 1. **Token**：`DESIGN.md`（YAML token + 设计理由）是唯一来源，`pnpm tokens` 生成 `src/styles/tokens.css`。
-2. **组件**：`src/components/ui/` 语义组件，属性写死在组件里（例如 `SecretInput` 不会触发浏览器保存密码）。
+2. **组件**：`src/components/ui/` 语义组件，沿用 shadcn/ui（new-york）的写法与字号命名，属性写死在组件里（例如 `SecretInput` 不会触发浏览器保存密码）。页面状态的用法见 `docs/design/states.md`。
 3. **守卫**：`src/test/` 下三个 vitest 测试——设计漂移、原生控件、token 同步。
 
 技术栈：React 18 + TypeScript + Vite + Tailwind v4 + Radix + vitest。
@@ -23,8 +23,13 @@ git clone ~/Projects/ui-kit <新项目路径>
 
 前提：已用 React + Tailwind v4 + vitest。
 
-1. 复制 `DESIGN.md`、`scripts/tokens.mjs`、`src/components/ui/`、`src/lib/utils.ts`、`src/test/*.test.ts`、`docs/design/components.md`。
-2. 补依赖：`@google/design.md`、`@radix-ui/react-dialog`、`@radix-ui/react-label`、`@radix-ui/react-slot`、`class-variance-authority`、`clsx`、`tailwind-merge`、`lucide-react`、`@fontsource-variable/inter`、`@fontsource-variable/noto-sans-sc`。
-3. 把项目现有色值、字号、圆角搬进 `DESIGN.md`，`pnpm tokens`，样式入口 `@import './tokens.css'`。
-4. 迁移原生 `input` / `select` / `textarea` 到组件（参考 game-atelier 359d40ff：先 `variant="bare"` 保持外观，再逐步收敛）。
-5. 首跑守卫，把原生 button、bare 控件、任意值间距的实际数量填进 `nativeControlsGuard.test.ts` 的基线。
+1. 复制 `DESIGN.md`、`components.json`、`scripts/tokens.mjs`、`src/components/ui/`、`src/lib/utils.ts`、`src/test/*.test.ts`、`docs/design/`。
+2. 补依赖：`@google/design.md`、`@radix-ui/react-alert-dialog`、`@radix-ui/react-dialog`、`@radix-ui/react-label`、`@radix-ui/react-slot`、`class-variance-authority`、`clsx`、`tailwind-merge`、`lucide-react`、`sonner`、`@fontsource-variable/inter`、`@fontsource-variable/noto-sans-sc`。
+3. 应用根部挂一次 `<Toaster />`（`ui/sonner`）。
+4. 把项目现有色值、字号、圆角搬进 `DESIGN.md`，`pnpm tokens`，样式入口 `@import './tokens.css'`。
+5. 迁移原生 `input` / `select` / `textarea` 到组件（参考 game-atelier 359d40ff：先 `variant="bare"` 保持外观，再逐步收敛）。
+6. 首跑守卫，把原生 button、bare 控件、任意值间距的实际数量填进 `nativeControlsGuard.test.ts` 的基线。
+
+## 补组件
+
+`components.json` 已配好，可用 `pnpm dlx shadcn@latest add <组件>` 拉 shadcn 源码。拉下来后按守卫改：去掉 `shadow-*` 与 `dark:` 变体，字号只留 xs / sm / base / lg，再登记到 `docs/design/components.md` 与 Kit。

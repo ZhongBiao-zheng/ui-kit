@@ -1,6 +1,7 @@
 # 组件规范
 
 > 页面只组合 `src/components/ui/` 的组件。视觉 token 与理由见 [DESIGN.md](../../DESIGN.md)，样例见开发环境首页（Kit）。
+> 加载、空、错误、反馈等状态的用法见 [页面状态规范](states.md)。
 > 由 `src/test/nativeControlsGuard.test.ts` 与 `src/test/designDrift.test.ts` 守卫。
 
 ## 选用
@@ -21,6 +22,12 @@
 | 卡片 | `Card` | |
 | 弹窗 | `Dialog` | 标题用 `DialogTitle`，说明用 `DialogDescription` |
 | 标签 | `Badge` | |
+| 首次加载占位 | `Skeleton` | 按真实布局占位，见 [页面状态规范](states.md) |
+| 进行中指示 | `Spinner` | 按钮内或触发位置 |
+| 空状态 | `Empty` | 从未有数据时；筛选无结果用一行文字 |
+| 区块内提示 / 加载失败 | `Alert` | `variant="destructive"` 表示失败，附重试 |
+| 操作结果反馈 | `toast`（`Toaster` 在根部挂一次） | 结果不可见时才用 |
+| 不可撤销操作确认 | `AlertDialog` | 不用 `window.confirm` |
 
 缺组件时先在 `components/ui/` 补齐再用，不在页面里写原生控件。
 

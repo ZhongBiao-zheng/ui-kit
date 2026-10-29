@@ -71,6 +71,16 @@ describe('原生控件守卫（DESIGN.md § Components）', () => {
     expect(hits, `<form> 需要 autoComplete="off"：\n${hits.join('\n')}`).toEqual([]);
   });
 
+  it('不用浏览器原生弹窗（docs/design/states.md）', () => {
+    const hits: string[] = [];
+    for (const { rel, source } of FILES) {
+      source.split('\n').forEach((line, i) => {
+        if (/(?<![\w.])(?:window\.)?(?:alert|confirm|prompt)\(/.test(line)) hits.push(`${rel}:${i + 1}  ${line.trim().slice(0, 100)}`);
+      });
+    }
+    expect(hits, `改用 toast / AlertDialog / Dialog：\n${hits.join('\n')}`).toEqual([]);
+  });
+
   it('原生 button 只减不增（新代码用 Button）', () => {
     const hits: string[] = [];
     for (const { rel, file } of PAGES) {

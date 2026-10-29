@@ -1,22 +1,79 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { KeyRound, Moon, RotateCw, Sun } from 'lucide-react';
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Checkbox, Radio } from '@/components/ui/checkbox';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Field } from '@/components/ui/field';
 import { FileInput } from '@/components/ui/file-input';
 import { Input } from '@/components/ui/input';
 import { SecretInput } from '@/components/ui/secret-input';
 import { Select } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Slider } from '@/components/ui/slider';
+import { toast } from '@/components/ui/sonner';
+import { Spinner } from '@/components/ui/spinner';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 
 const BUTTON_VARIANTS = ['default', 'secondary', 'outline', 'ghost', 'destructive', 'link'] as const;
 const BUTTON_SIZES = ['sm', 'default', 'lg'] as const;
+const LIST_STATES = [
+  { id: 'loading', label: '首次加载' },
+  { id: 'data', label: '有数据' },
+  { id: 'empty', label: '空' },
+  { id: 'filtered', label: '筛选无结果' },
+  { id: 'error', label: '加载失败' },
+] as const;
+type ListState = (typeof LIST_STATES)[number]['id'];
+const PROVIDERS = ['OpenAI', 'Volcengine Ark', 'OpenRouter'];
+
+function ProviderList({ state, onRetry }: { state: ListState; onRetry: () => void }) {
+  if (state === 'loading') {
+    return <div className="grid gap-2">{PROVIDERS.map(name => <Skeleton key={name} className="h-12" />)}</div>;
+  }
+  if (state === 'error') {
+    return (
+      <Alert variant="destructive">
+        <AlertTitle>供应商加载失败</AlertTitle>
+        <AlertDescription>
+          本地服务没有响应，确认服务已启动后重试。
+          <Button variant="outline" size="sm" onClick={onRetry}><RotateCw />重试</Button>
+        </AlertDescription>
+      </Alert>
+    );
+  }
+  if (state === 'empty') {
+    return (
+      <Empty className="border border-dashed border-border">
+        <EmptyHeader>
+          <EmptyMedia variant="icon"><KeyRound /></EmptyMedia>
+          <EmptyTitle>还没有供应商</EmptyTitle>
+          <EmptyDescription>添加一个供应商后才能出图。</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent><Button>添加供应商</Button></EmptyContent>
+      </Empty>
+    );
+  }
+  if (state === 'filtered') {
+    return (
+      <p className="flex items-center gap-2 text-muted-foreground">
+        没有匹配的供应商<Button variant="link" className="h-auto px-0">清除筛选</Button>
+      </p>
+    );
+  }
+  return (
+    <div className="grid gap-2">
+      {PROVIDERS.map(name => <Card key={name} className="px-4 py-3">{name}</Card>)}
+    </div>
+  );
+}
+
 const BADGE_VARIANTS = ['default', 'secondary', 'outline', 'success', 'warning', 'destructive'] as const;
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -45,6 +102,20 @@ export function Kit() {
   const [size, setSize] = useState(40);
   const [radio, setRadio] = useState('a');
   const file = useRef<HTMLInputElement>(null);
+  const [listState, setListState] = useState<ListState>('data');
+  const [saving, setSaving] = useState(false);
+
+  function save() {
+    setSaving(true);
+    window.setTimeout(() => {
+      setSaving(false);
+      toast.success('已保存到资产库');
+    }, 1200);
+  }
+
+  function failCopy() {
+    toast.error('网关连接失败，检查地址后重试', { action: { label: '重试', onClick: () => toast.success('已重新连接') } });
+  }
 
   function toggleTheme() {
     document.documentElement.classList.toggle('dark', !dark);
@@ -104,6 +175,37 @@ export function Kit() {
         <Row label="FileInput">
           <FileInput ref={file} />
           <Button variant="secondary" onClick={() => file.current?.click()}>选择文件</Button>
+        </Row>
+      </Section>
+
+      <Section title="状态">
+        <Row label="列表">
+          {LIST_STATES.map(item => (
+            <Button key={item.id} size="sm" variant={listState === item.id ? 'secondary' : 'ghost'} onClick={() => setListState(item.id)}>{item.label}</Button>
+          ))}
+        </Row>
+        <ProviderList state={listState} onRetry={() => setListState('data')} />
+        <Row label="提交中">
+          <Button disabled={saving} onClick={save}>{saving && <Spinner />}{saving ? '保存中' : '保存'}</Button>
+        </Row>
+        <Row label="反馈">
+          <Button variant="outline" onClick={() => toast.success('已复制')}>成功提示</Button>
+          <Button variant="outline" onClick={failCopy}>失败提示</Button>
+        </Row>
+        <Row label="确认">
+          <AlertDialog>
+            <AlertDialogTrigger asChild><Button variant="destructive">删除供应商</Button></AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>删除 3 个供应商？</AlertDialogTitle>
+                <AlertDialogDescription>已生成的图片保留，使用这些供应商的路由会失效。</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>取消</AlertDialogCancel>
+                <AlertDialogAction destructive onClick={() => toast.success('已删除 3 个供应商')}>删除</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </Row>
       </Section>
 

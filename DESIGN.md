@@ -144,11 +144,14 @@ components:
 - 输入：`Input`、`SecretInput`、`Textarea`、`Select`、`Checkbox`、`Radio`、`Switch`、`Slider`、`FileInput`，自带关闭浏览器与密码管理器自动填充。
 - 表单行：`Field`（标签 + 控件 + 提示或错误）。
 - 表面：`Card`、`Dialog`、`Badge`。
+- 状态：`Skeleton`、`Spinner`、`Empty`、`Alert`、`toast`、`AlertDialog`，何时用哪个见 `docs/design/states.md`。
 
 ## Do's and Don'ts
 
 - ✅ 新页面先对照 `/kit`，缺组件先补进 `components/ui`
 - ✅ 改视觉先改本文件，再 `pnpm tokens`
+- ✅ 每个读写数据的界面覆盖加载、空、失败三种状态
+- ❌ `window.alert` / `confirm` / `prompt`
 - ❌ 页面里写原生 `input` / `select` / `textarea`
 - ❌ 敏感值用 `type="password"`，改用 `SecretInput`
 - ❌ 硬编码色值、`text-xl` 以上与 `text-[13px]` 这类任意值字号、`shadow-*`、渐变
