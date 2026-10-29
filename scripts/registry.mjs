@@ -33,7 +33,8 @@ const ui = readdirSync(`${root}src/components/ui`)
       name,
       type: 'registry:ui',
       dependencies: npmDeps(source),
-      registryDependencies: [`${NAMESPACE}/utils`, `${NAMESPACE}/base`, ...uiDeps(source, name)],
+      // 组件不依赖 base：否则 add <组件> --overwrite 会连带覆盖项目自有的 DESIGN.md 等文件
+      registryDependencies: [`${NAMESPACE}/utils`, ...uiDeps(source, name)],
       files: [{ path, type: 'registry:ui' }],
     };
   });
