@@ -152,6 +152,7 @@ components:
 - ✅ 新页面先对照 `/kit`，缺组件先补进 `components/ui`
 - ✅ 改视觉先改本文件，再 `pnpm tokens`
 - ✅ 每个读写数据的界面覆盖加载、空、失败三种状态
+- ✅ 交付前按 `docs/design/review.md` 截图评审（1280 / 375 × 浅色 / 深色）
 - ❌ `window.alert` / `confirm` / `prompt`
 - ❌ 页面里写原生 `input` / `select` / `textarea`
 - ❌ 敏感值用 `type="password"`，改用 `SecretInput`

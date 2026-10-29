@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { Bell, FolderOpen, Monitor } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
 import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemTitle } from '@/components/ui/item';
 import { Page, PageHeader } from '@/components/ui/page';
 import { Section } from '@/components/ui/section';
 import { Select } from '@/components/ui/select';
@@ -23,7 +21,6 @@ export function SettingsExample() {
       <Section title="通用">
         <ItemGroup>
           <Item>
-            <ItemMedia variant="icon"><Bell /></ItemMedia>
             <ItemContent>
               <ItemTitle>生成完成通知</ItemTitle>
               <ItemDescription>后台任务完成时提示</ItemDescription>
@@ -31,7 +28,6 @@ export function SettingsExample() {
             <ItemActions><Switch checked={notify} label="生成完成通知" onChange={setNotify} /></ItemActions>
           </Item>
           <Item>
-            <ItemMedia variant="icon"><Monitor /></ItemMedia>
             <ItemContent><ItemTitle>外观</ItemTitle></ItemContent>
             <ItemActions>
               <Select aria-label="外观" defaultValue="system" className="w-32">
@@ -42,7 +38,6 @@ export function SettingsExample() {
             </ItemActions>
           </Item>
           <Item>
-            <ItemMedia variant="icon"><FolderOpen /></ItemMedia>
             <ItemContent><ItemTitle>启动时打开上次项目</ItemTitle></ItemContent>
             <ItemActions><Switch checked={autoOpen} label="启动时打开上次项目" onChange={setAutoOpen} /></ItemActions>
           </Item>

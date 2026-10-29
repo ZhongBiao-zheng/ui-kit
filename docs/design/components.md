@@ -1,7 +1,7 @@
 # 组件规范
 
 > 页面只组合 `src/components/ui/` 的组件。视觉 token 与理由见 [DESIGN.md](../../DESIGN.md)，样例见开发环境首页（Kit）。
-> 加载、空、错误、反馈等状态的用法见 [页面状态规范](states.md)；页面结构见 [页面骨架规范](layouts.md)。
+> 加载、空、错误、反馈等状态的用法见 [页面状态规范](states.md)；页面结构见 [页面骨架规范](layouts.md)；交付前按 [视觉评审](review.md) 截图检查。
 > 由 `src/test/nativeControlsGuard.test.ts` 与 `src/test/designDrift.test.ts` 守卫。
 
 ## 选用

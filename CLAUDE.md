@@ -18,4 +18,5 @@ pnpm lint && pnpm test
 - 新页面从 `src/pages/examples/` 的样板复制，结构按 `docs/design/layouts.md`。
 - 读写数据的界面按 `docs/design/states.md` 覆盖加载、空、失败与操作反馈。
 - 新增或修改组件后同步更新 Kit 样例页与 `docs/design/components.md`。
+- 新页面或明显的 UI 改动，交付前按 `docs/design/review.md` 截图评审，必修项修完再交付。
 - 这里的改动是模板，已接入的项目不会自动更新；接入方式见 README。

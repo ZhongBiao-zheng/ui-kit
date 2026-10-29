@@ -6,6 +6,8 @@
 2. **组件**：`src/components/ui/` 语义组件，沿用 shadcn/ui（new-york）的写法与字号命名，属性写死在组件里（例如 `SecretInput` 不会触发浏览器保存密码）。页面状态的用法见 `docs/design/states.md`。
 3. **守卫**：`src/test/` 下三个 vitest 测试——设计漂移、原生控件、token 同步。
 
+4. **评审**：守卫拦不住的观感问题，交付前按 `docs/design/review.md` 截图评审。
+
 技术栈：React 18 + TypeScript + Vite + Tailwind v4 + Radix + vitest。
 
 ## 新项目

@@ -30,13 +30,13 @@ export function ListExample() {
     <Page>
       <PageHeader
         title="供应商"
-        actions={<>
-          <div className="relative">
+        actions={<div className="flex w-full items-center gap-2 sm:w-auto">
+          <div className="relative flex-1 sm:flex-none">
             <Search aria-hidden className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input aria-label="搜索供应商" placeholder="搜索" value={query} onChange={e => setQuery(e.target.value)} className="w-48 pl-9" />
+            <Input aria-label="搜索供应商" placeholder="搜索" value={query} onChange={e => setQuery(e.target.value)} className="w-full pl-9 sm:w-48" />
           </div>
           <Button><Plus />添加</Button>
-        </>}
+        </div>}
       />
 
       <Section title="已接入">

@@ -33,8 +33,9 @@ export function PageHeader({ title, back, actions, className }: PageHeaderProps)
   return (
     <header className={cn('flex min-h-9 flex-wrap items-center gap-3', className)}>
       {back}
-      <h1 className="min-w-0 flex-1 truncate text-lg font-semibold">{title}</h1>
-      {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
+      {/* 标题不被操作区挤压；放不下时操作区换到下一行 */}
+      <h1 className="max-w-full grow shrink-0 truncate text-lg font-semibold">{title}</h1>
+      {actions && <div className="flex max-w-full grow flex-wrap items-center justify-end gap-2 sm:grow-0">{actions}</div>}
     </header>
   );
 }
