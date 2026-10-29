@@ -20,12 +20,38 @@
     {
       "name": "base",
       "type": "registry:item",
-      "title": "UI 规范底座",
-      "description": "DESIGN.md、token 生成脚本、ESLint 规则、棘轮测试与规范文档",
+      "title": "UI 规范底座（项目自有）",
+      "description": "DESIGN.md、ESLint 入口、棘轮基线；接入时装一次，之后由项目自己改",
       "dependencies": [
         "@fontsource-variable/inter@^5.3.0",
         "@fontsource-variable/noto-sans-sc@^5.3.1"
       ],
+      "registryDependencies": [
+        "@biao/rules"
+      ],
+      "files": [
+        {
+          "path": "DESIGN.md",
+          "type": "registry:file",
+          "target": "~/DESIGN.md"
+        },
+        {
+          "path": "eslint.config.js",
+          "type": "registry:file",
+          "target": "~/eslint.config.js"
+        },
+        {
+          "path": "ui-kit.ratchet.json",
+          "type": "registry:file",
+          "target": "~/ui-kit.ratchet.json"
+        }
+      ]
+    },
+    {
+      "name": "rules",
+      "type": "registry:item",
+      "title": "UI 规范规则（随上游更新）",
+      "description": "ESLint 规则模块、token 生成脚本、守卫测试与规范文档",
       "devDependencies": [
         "@google/design.md@^0.4.0",
         "vitest@^2.1.5",
@@ -36,24 +62,14 @@
       ],
       "files": [
         {
-          "path": "DESIGN.md",
+          "path": "eslint.ui-kit.js",
           "type": "registry:file",
-          "target": "~/DESIGN.md"
+          "target": "~/eslint.ui-kit.js"
         },
         {
           "path": "scripts/tokens.mjs",
           "type": "registry:file",
           "target": "~/scripts/tokens.mjs"
-        },
-        {
-          "path": "src/styles/tokens.css",
-          "type": "registry:file",
-          "target": "~/src/styles/tokens.css"
-        },
-        {
-          "path": "eslint.config.js",
-          "type": "registry:file",
-          "target": "~/eslint.config.js"
         },
         {
           "path": "src/test/ratchet.test.ts",

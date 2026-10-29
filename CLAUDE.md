@@ -23,4 +23,4 @@ pnpm lint && pnpm test
 - 读写数据的界面按 `docs/design/states.md` 覆盖加载、空、失败与操作反馈。
 - 新增或修改组件后同步更新 Kit 样例页与 `docs/design/components.md`。
 - 新页面或明显的 UI 改动，交付前按 `docs/design/review.md` 截图评审，必修项修完再交付。
-- 本仓库是 shadcn registry（`@biao`）。改组件后 `pnpm registry` 能构建通过再推送；接入的项目用 `shadcn add @biao/<名> --overwrite` 拉取更新。
+- 本仓库是 shadcn registry（`@biao`）：`base` 是项目自有文件（DESIGN.md、eslint.config.js、ui-kit.ratchet.json），`rules` 跟随上游。规则改 `eslint.ui-kit.js`，不改 `eslint.config.js`。改组件后 `pnpm registry` 能构建通过再推送；接入的项目用 `shadcn add @biao/<名> --overwrite` 拉取更新。

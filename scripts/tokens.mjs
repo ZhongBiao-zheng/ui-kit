@@ -23,7 +23,7 @@ for (const line of declarations) {
   else if (name.startsWith('font-')) family ??= value;
   else light.push(`  --${name}: ${value};`);
 }
-if (family) light.unshift(`  --font-sans: ${family}, ${FONT_FALLBACK};`);
+if (family) light.unshift(`  --font-sans: ${[family, ...FONT_FALLBACK.split(', ').filter(item => item !== family)].join(', ')};`);
 
 const css = [
   '/* 由 DESIGN.md 生成（pnpm tokens），不要手改 */',
@@ -31,10 +31,8 @@ const css = [
   ...light,
   '}',
   '',
-  '.dark {',
-  ...dark,
-  '}',
-  '',
+  // 只有定义了 dark- token 的产品才有暗色
+  ...(dark.length ? ['.dark {', ...dark, '}', ''] : []),
 ].join('\n');
 
 if (process.argv.includes('--check')) {

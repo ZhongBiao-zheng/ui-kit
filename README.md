@@ -37,14 +37,22 @@
 3. 样式入口加 `@import './tokens.css';`，应用根部挂一次 `<Toaster />`（`ui/sonner`）。
 4. `pnpm-workspace.yaml` 放行 esbuild（pnpm 11）：`allowBuilds: { esbuild: true }`。
 5. 改 `DESIGN.md` 的 Overview 与 colors，`node scripts/tokens.mjs` 重新生成 token。
-6. `package.json` 的 lint 加上 `eslint .`。存量项目首跑 `ratchet.test.ts`，把报错里的实际数量填成基线。
-7. Chromatic：在 chromatic.com 建项目，把 project token 配成环境变量 `CHROMATIC_PROJECT_TOKEN`（CI 用仓库 secret）。
+6. `package.json` 的 lint 加上 `eslint .`。存量项目首跑 `ratchet.test.ts`，把报错里的实际数量填进 `ui-kit.ratchet.json`；项目自己的 ESLint 调整追加在 `eslint.config.js` 的数组后面。
+7. 存量页面迁移原生控件：`Input` / `Textarea` / `Select` 先用 `variant="bare"` 保持原外观，再逐步收敛到默认配方。手写 CSS 类放进 `@layer components`，ESLint 才认得。
+8. Chromatic：在 chromatic.com 建项目，把 project token 配成环境变量 `CHROMATIC_PROJECT_TOKEN`（CI 用仓库 secret）。
 
 单独补组件：`pnpm dlx shadcn@latest add @biao/<组件名>`。
 
-## 更新组件
+## 更新
 
-在本仓库改完 → `pnpm lint && pnpm test` → 推送 main，Pages 自动发布。接入的项目重新 `shadcn add @biao/<组件名> --overwrite` 拉取，用 git diff 看改了什么。
+在本仓库改完 → `pnpm lint && pnpm test` → 推送 main，Pages 自动发布。接入的项目拉取：
+
+```bash
+pnpm dlx shadcn@latest add @biao/rules --overwrite        # 规则、脚本、守卫测试、规范文档
+pnpm dlx shadcn@latest add @biao/<组件名> --overwrite     # 组件
+```
+
+用 git diff 看改了什么。`@biao/base` 的三个文件（`DESIGN.md`、`eslint.config.js`、`ui-kit.ratchet.json`）归项目自己管，接入后不要再 `--overwrite` 拉 base。
 
 ## 本仓库命令
 

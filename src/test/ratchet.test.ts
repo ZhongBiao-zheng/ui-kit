@@ -1,7 +1,8 @@
 /**
- * 棘轮守卫 —— 存量债务只许减少，减少后把基线改成新数值。
- * 硬性禁令（原生控件、色值、字号、原生弹窗等）在 eslint.config.js。
+ * 棘轮守卫 —— 存量债务只许减少。基线在项目根目录 ui-kit.ratchet.json（项目自己管），减少后改成新数值。
+ * 硬性禁令（原生控件、色值、字号、原生弹窗等）在 eslint.ui-kit.js。
  */
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import ts from 'typescript';
 
@@ -18,10 +19,9 @@ const FILES = Object.entries(sources)
   }));
 const PAGES = FILES.filter(({ rel }) => !rel.startsWith('components/ui/'));
 
-// 棘轮基线：新项目全为 0；存量项目接入时首跑守卫，按报错里的实际数填入
-const RAW_BUTTON_BASELINE = 0;
-const BARE_CONTROL_BASELINE = 0;
-const ARBITRARY_SPACING_BASELINE = 0;
+const BASELINE: { rawButton: number; bareControl: number; arbitrarySpacing: number } = JSON.parse(
+  readFileSync('ui-kit.ratchet.json', 'utf-8'),
+);
 
 const ARBITRARY_SPACING = /(?<![\w-])-?(?:p[xytrbl]?|m[xytrbl]?|gap(?:-[xy])?|space-[xy])-\[/g;
 
@@ -37,9 +37,10 @@ function where(file: ts.SourceFile, rel: string, node: ts.Node) {
   return `${rel}:${file.getLineAndCharacterOfPosition(node.getStart(file)).line + 1}`;
 }
 
-function expectRatchet(actual: number, baseline: number, what: string, hits: string[]) {
+function expectRatchet(actual: number, key: keyof typeof BASELINE, what: string, hits: string[]) {
+  const baseline = BASELINE[key];
   expect(actual, `${what}新增了 ${actual - baseline} 处：\n${hits.join('\n')}`).toBeLessThanOrEqual(baseline);
-  expect(actual, `${what}已减少到 ${actual}，把基线改成 ${actual}`).toBe(baseline);
+  expect(actual, `${what}已减少到 ${actual}，把 ui-kit.ratchet.json 的 ${key} 改成 ${actual}`).toBe(baseline);
 }
 
 describe('棘轮守卫', () => {
@@ -50,7 +51,7 @@ describe('棘轮守卫', () => {
         if (node.tagName.getText(file) === 'button') hits.push(where(file, rel, node));
       });
     }
-    expectRatchet(hits.length, RAW_BUTTON_BASELINE, '原生 <button> ', hits);
+    expectRatchet(hits.length, 'rawButton', '原生 <button> ', hits);
   });
 
   it('bare 控件只减不增（新代码用组件默认配方）', () => {
@@ -64,7 +65,7 @@ describe('棘轮守卫', () => {
         if (bare) hits.push(where(file, rel, node));
       });
     }
-    expectRatchet(hits.length, BARE_CONTROL_BASELINE, 'variant="bare" 控件', hits);
+    expectRatchet(hits.length, 'bareControl', 'variant="bare" 控件', hits);
   });
 
   it('任意值间距只减不增（DESIGN.md § Layout）', () => {
@@ -74,6 +75,6 @@ describe('棘轮守卫', () => {
         for (const _ of line.matchAll(ARBITRARY_SPACING)) hits.push(`${rel}:${i + 1}  ${line.trim().slice(0, 100)}`);
       });
     }
-    expectRatchet(hits.length, ARBITRARY_SPACING_BASELINE, '任意值间距 ', hits);
+    expectRatchet(hits.length, 'arbitrarySpacing', '任意值间距 ', hits);
   });
 });

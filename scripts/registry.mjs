@@ -48,18 +48,27 @@ const utils = {
   files: [{ path: 'src/lib/utils.ts', type: 'registry:lib' }],
 };
 
+// 项目自己管的文件：只在接入时装一次，之后各项目自己改（token、ESLint 调整、棘轮基线）
 const base = {
   name: 'base',
   type: 'registry:item',
-  title: 'UI 规范底座',
-  description: 'DESIGN.md、token 生成脚本、ESLint 规则、棘轮测试与规范文档',
+  title: 'UI 规范底座（项目自有）',
+  description: 'DESIGN.md、ESLint 入口、棘轮基线；接入时装一次，之后由项目自己改',
   dependencies: dev(['@fontsource-variable/inter', '@fontsource-variable/noto-sans-sc']),
+  registryDependencies: [`${NAMESPACE}/rules`],
+  files: [file('DESIGN.md'), file('eslint.config.js'), file('ui-kit.ratchet.json')],
+};
+
+// 跟随上游的文件：项目里不改，用 shadcn add @biao/rules --overwrite 更新
+const rules = {
+  name: 'rules',
+  type: 'registry:item',
+  title: 'UI 规范规则（随上游更新）',
+  description: 'ESLint 规则模块、token 生成脚本、守卫测试与规范文档',
   devDependencies: dev(['@google/design.md', 'vitest', 'eslint', 'typescript-eslint', 'eslint-plugin-react-hooks', 'eslint-plugin-better-tailwindcss']),
   files: [
-    file('DESIGN.md'),
+    file('eslint.ui-kit.js'),
     file('scripts/tokens.mjs'),
-    file('src/styles/tokens.css'),
-    file('eslint.config.js'),
     file('src/test/ratchet.test.ts'),
     file('src/test/pageLayoutGuard.test.ts'),
     file('src/test/tokensSync.test.ts'),
@@ -89,7 +98,7 @@ const registry = {
   $schema: 'https://ui.shadcn.com/schema/registry.json',
   name: 'biao',
   homepage: 'https://zhongbiao-zheng.github.io/ui-kit',
-  items: [utils, base, ...ui, examples, storybook],
+  items: [utils, base, rules, ...ui, examples, storybook],
 };
 
 writeFileSync(`${root}registry.json`, `${JSON.stringify(registry, null, 2)}\n`);
