@@ -287,6 +287,25 @@
       ]
     },
     {
+      "name": "inline-edit",
+      "type": "registry:ui",
+      "dependencies": [
+        "lucide-react@^1.16.0"
+      ],
+      "registryDependencies": [
+        "@biao/utils",
+        "@biao/input",
+        "@biao/secret-input",
+        "@biao/textarea"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/inline-edit.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "dependencies": [],

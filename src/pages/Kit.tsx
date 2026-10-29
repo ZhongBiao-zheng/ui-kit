@@ -11,6 +11,7 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Field } from '@/components/ui/field';
 import { FileInput } from '@/components/ui/file-input';
+import { InlineEdit } from '@/components/ui/inline-edit';
 import { Input } from '@/components/ui/input';
 import { SecretInput } from '@/components/ui/secret-input';
 import { Page, PageHeader } from '@/components/ui/page';
@@ -89,6 +90,21 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
+function InlineEditDemo() {
+  const [title, setTitle] = useState('demo-team.example.com');
+  const [name, setName] = useState('阿明');
+  const [secret, setSecret] = useState('Demo#Team-01');
+  const [note, setNote] = useState('');
+  return (
+    <div className="grid gap-3">
+      <InlineEdit size="title" label="Team 名称" value={title} onSave={setTitle} />
+      <Row label="文字"><InlineEdit label="姓名" value={name} onSave={setName} /></Row>
+      <Row label="密码"><InlineEdit kind="secret" label="密码" value={secret} onSave={setSecret} /></Row>
+      <Row label="多行"><InlineEdit kind="multiline" label="备注" value={note} onSave={setNote} placeholder="添加备注" /></Row>
+    </div>
+  );
+}
+
 function ComponentsView() {
   const [revealed, setRevealed] = useState(false);
   const [enabled, setEnabled] = useState(true);
@@ -139,6 +155,10 @@ function ComponentsView() {
         <Field label="类型" htmlFor="kit-type">
           <Select id="kit-type" defaultValue="image"><option value="image">图片</option><option value="video">视频</option></Select>
         </Field>
+      </Section>
+
+      <Section title="点击编辑">
+        <InlineEditDemo />
       </Section>
 
       <Section title="选择">

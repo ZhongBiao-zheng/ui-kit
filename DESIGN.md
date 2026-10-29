@@ -130,7 +130,7 @@ components:
 
 ## Elevation
 
-层级靠表面颜色：`background` → `card` → `popover` 逐级抬高，配 1px `border`。不用阴影。遮罩用 `bg-scrim`。
+层级靠表面颜色：`background` → `card` → `popover` 逐级抬高，配 1px `border`。不用阴影。输入框聚焦用 shadcn 的 3px 半透明光环（`ring-[3px] ring-ring/50`）加 `border-ring`，光环不算阴影。遮罩用 `bg-scrim`。
 
 ## Shapes
 
