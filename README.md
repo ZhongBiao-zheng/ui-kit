@@ -47,7 +47,8 @@
    - 手写 CSS 类放进 `@layer components`，ESLint 才认得
    - 首跑 `pnpm test`，把棘轮报错里的实际数量填进 `ui-kit.ratchet.json`；项目自己的 ESLint 调整追加在 `eslint.config.js` 的数组后面
 6. 项目里有真实敏感数据时，提供 `pnpm dev:demo`（假数据 + 另一个端口），验证业务场景只用它。
-7. Chromatic：在 chromatic.com 建项目，把 project token 配成环境变量 `CHROMATIC_PROJECT_TOKEN`（CI 用仓库 secret）。
+7. 产品页面视觉回归：`pnpm exec shadcn add @biao/storybook`。装完后 `.storybook/` 三个文件归项目自己改（入口 CSS 与字体、主题与视口、快照组合），不再 `--overwrite`。页面 stories 要稳定：固定 `Date`、拦截联网请求给固定返回、用内存里的演示数据提供数据上下文，Storybook 里去掉读写真实数据的服务端插件（参考 ai-asset-desk 的 `.storybook/` 与 `src/stories/withDesk.tsx`）。
+8. Chromatic：在 chromatic.com 建项目，把 project token 配成环境变量 `CHROMATIC_PROJECT_TOKEN`（CI 用仓库 secret）。
 
 单独补组件：`pnpm exec shadcn add @biao/<组件名>`。
 
