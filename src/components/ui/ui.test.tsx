@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { Dialog, DialogContent, DialogTitle } from './dialog';
 import { InlineEdit } from './inline-edit';
 import { Input } from './input';
 import { SecretInput } from './secret-input';
@@ -68,5 +69,20 @@ describe('点击编辑', () => {
     expect(screen.getByRole('button', { name: '修改表名' }).className).not.toMatch(/text-(sm|lg)/);
     render(<InlineEdit kind="secret" label="密钥" value="x" onSave={() => {}} display={<span>自定义</span>} />);
     expect(screen.getByText('自定义')).toBeInTheDocument();
+  });
+
+  it('弹窗里取消点击编辑时不关弹窗', () => {
+    render(
+      <Dialog defaultOpen>
+        <DialogContent>
+          <DialogTitle>面板</DialogTitle>
+          <InlineEdit label="表名" value="Claude 订阅" onSave={() => {}} />
+        </DialogContent>
+      </Dialog>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: '修改表名' }));
+    fireEvent.keyDown(screen.getByLabelText('表名'), { key: 'Escape' });
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '修改表名' })).toBeInTheDocument();
   });
 });

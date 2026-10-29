@@ -10,13 +10,18 @@ export const DialogClose = DialogPrimitive.Close;
 export const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+>(({ className, children, onEscapeKeyDown, ...props }, ref) => (
   <DialogPrimitive.Portal>
     <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-scrim" />
     <DialogPrimitive.Content
       ref={ref}
       className={cn('fixed left-1/2 top-1/2 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl border border-border bg-popover p-5 text-foreground focus:outline-none', className)}
       {...props}
+      onEscapeKeyDown={event => {
+        // 焦点在点击编辑的输入框里时，Esc 只取消编辑
+        if (document.activeElement?.matches('[data-inline-edit]')) event.preventDefault();
+        onEscapeKeyDown?.(event);
+      }}
     >
       {children}
       <DialogPrimitive.Close aria-label="关闭" className="absolute right-3 top-3 inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40">

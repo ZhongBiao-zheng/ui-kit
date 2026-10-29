@@ -74,7 +74,8 @@ export function InlineEdit({ value, onSave, label, size = 'default', kind = 'tex
       commit();
     }
   };
-  const common = { autoFocus: true, 'aria-label': label, value: draft, onBlur: commit, onKeyDown: keys };
+  // data-inline-edit：弹窗据此判断 Esc 是在取消编辑，不关弹窗
+  const common = { autoFocus: true, 'aria-label': label, value: draft, onBlur: commit, onKeyDown: keys, 'data-inline-edit': '' };
 
   if (kind === 'multiline')
     return <Textarea {...common} rows={3} onChange={event => setDraft(event.target.value)} className={cn('text-sm', className)} />;
