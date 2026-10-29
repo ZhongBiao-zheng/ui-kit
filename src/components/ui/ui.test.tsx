@@ -62,4 +62,11 @@ describe('点击编辑', () => {
     fireEvent.click(screen.getByRole('button', { name: '显示密码' }));
     expect(screen.getByLabelText('密码')).not.toHaveClass('[-webkit-text-security:disc]');
   });
+
+  it('inline 尺寸继承字号，密码可换成自定义显示', () => {
+    render(<InlineEdit size="inline" label="表名" value="Claude 订阅" onSave={() => {}} />);
+    expect(screen.getByRole('button', { name: '修改表名' }).className).not.toMatch(/text-(sm|lg)/);
+    render(<InlineEdit kind="secret" label="密钥" value="x" onSave={() => {}} display={<span>自定义</span>} />);
+    expect(screen.getByText('自定义')).toBeInTheDocument();
+  });
 });

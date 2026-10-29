@@ -10,12 +10,12 @@ export interface InlineEditProps {
   onSave: (next: string) => void;
   /** 无障碍名称，也用作输入框的 aria-label */
   label: string;
-  /** title：页面或面板标题；default：正文、表格单元格 */
-  size?: 'default' | 'title';
+  /** title：页面标题；default：正文、表格单元格；inline：字号颜色继承所在位置（标题栏、组名里原地改名） */
+  size?: 'default' | 'title' | 'inline';
   /** secret：遮挡显示、铅笔进入编辑；multiline：⌘/Ctrl + 回车保存 */
   kind?: 'text' | 'number' | 'secret' | 'multiline';
   placeholder?: string;
-  /** 自定义显示内容（例如截断、链接色）；不传就显示 value 或 placeholder */
+  /** 自定义显示内容（例如截断、链接色；secret 时可换成带查看、复制的组件）；不传就显示 value 或 placeholder */
   display?: React.ReactNode;
   className?: string;
 }
@@ -30,6 +30,7 @@ export function InlineEdit({ value, onSave, label, size = 'default', kind = 'tex
   const [draft, setDraft] = React.useState<string>();
   const [revealed, setRevealed] = React.useState(false);
   const title = size === 'title';
+  const inline = size === 'inline';
 
   if (draft === undefined) {
     const start = () => {
@@ -39,7 +40,7 @@ export function InlineEdit({ value, onSave, label, size = 'default', kind = 'tex
     if (kind === 'secret')
       return (
         <span className={cn('inline-flex items-center gap-1', className)}>
-          <span className="px-2 font-mono text-sm">{value ? '••••••••' : <span className="text-muted-foreground">{placeholder}</span>}</span>
+          {display ?? <span className="px-2 font-mono text-sm">{value ? '••••••••' : <span className="text-muted-foreground">{placeholder}</span>}</span>}
           <button type="button" aria-label={`修改${label}`} onClick={start} className="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground">
             <Pencil className="size-4" aria-hidden />
           </button>
@@ -50,7 +51,7 @@ export function InlineEdit({ value, onSave, label, size = 'default', kind = 'tex
         type="button"
         aria-label={`修改${label}`}
         onClick={start}
-        className={cn(displayClass, title ? '-mx-2 h-10 text-lg font-semibold' : 'min-h-8 w-full py-1 text-sm', kind === 'multiline' && 'items-start whitespace-pre-wrap', className)}
+        className={cn(displayClass, title && '-mx-2 h-10 text-lg font-semibold', inline && '-mx-1 rounded-sm px-1', size === 'default' && 'min-h-8 w-full py-1 text-sm', kind === 'multiline' && 'items-start whitespace-pre-wrap', className)}
       >
         {display ?? (value ? <span className="truncate">{value}</span> : <span className="text-muted-foreground">{placeholder}</span>)}
       </button>
@@ -93,8 +94,18 @@ export function InlineEdit({ value, onSave, label, size = 'default', kind = 'tex
         </button>
       </span>
     );
-  // 标题输入框宽度跟着文字走（中文按两个字符宽）
-  const width = title ? `${Math.max(6, [...draft].reduce((size, char) => size + (/[^\x00-\xff]/.test(char) ? 2 : 1), 0) + 3)}ch` : undefined;
+  // 标题与 inline 输入框宽度跟着文字走（中文按两个字符宽）
+  const width = title || inline ? `${Math.max(6, [...draft].reduce((size, char) => size + (/[^\x00-\xff]/.test(char) ? 2 : 1), 0) + 3)}ch` : undefined;
+  if (inline)
+    return (
+      <Input
+        {...common}
+        variant="bare"
+        onChange={event => setDraft(event.target.value)}
+        style={{ width }}
+        className={cn('-mx-1 max-w-full rounded-sm border border-ring bg-background px-1 text-foreground ring-[3px] ring-ring/50 outline-none', className)}
+      />
+    );
   return (
     <Input
       {...common}

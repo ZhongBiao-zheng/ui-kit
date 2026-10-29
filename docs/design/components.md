@@ -17,7 +17,7 @@
 | 立即生效的开关 | `Switch` | |
 | 数值拖动 | `Slider` | |
 | 选文件 | `FileInput` | 隐藏，由按钮或拖放区 `ref.click()` 触发 |
-| 点击编辑（标题、表格单元格、详情字段） | `InlineEdit` | 默认是文字，悬停 ghost 底色，点击换成输入框；回车或失焦保存，Esc 取消。`size="title"` 用于标题，`kind` 支持 secret / number / multiline |
+| 点击编辑（标题、表格单元格、详情字段） | `InlineEdit` | 默认是文字，悬停 ghost 底色，点击换成输入框；回车或失焦保存，Esc 取消。`size`：title 页面标题、inline 标题栏或组名里原地改名（继承字号）；`kind` 支持 secret / number / multiline |
 | 表单行 | `Field` | 标签 + 控件 + 提示或错误；出错时控件加 `aria-invalid` |
 | 按钮 | `Button` | variant：default / secondary / outline / ghost / destructive / link；size：sm / default / lg / icon |
 | 卡片 | `Card` | |
