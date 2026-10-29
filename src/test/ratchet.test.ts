@@ -1,9 +1,6 @@
 /**
- * 原生控件守卫 —— 页面只组合 components/ui，属性与配方集中在组件里（DESIGN.md § Components）。
- *
- * - 页面禁写原生 input / textarea / select：防自动填充、密钥遮挡等属性由 ui 组件统一提供。
- * - form 一律 autoComplete="off"。
- * - 原生 button、bare 控件、任意值间距是存量债务，走棘轮：只许减少，减少后把基线改成新数值。
+ * 棘轮守卫 —— 存量债务只许减少，减少后把基线改成新数值。
+ * 硬性禁令（原生控件、色值、字号、原生弹窗等）在 eslint.config.js。
  */
 import { describe, expect, it } from 'vitest';
 import ts from 'typescript';
@@ -45,42 +42,7 @@ function expectRatchet(actual: number, baseline: number, what: string, hits: str
   expect(actual, `${what}已减少到 ${actual}，把基线改成 ${actual}`).toBe(baseline);
 }
 
-describe('原生控件守卫（DESIGN.md § Components）', () => {
-  it('页面不写原生 input / textarea / select，改用 components/ui', () => {
-    const hits: string[] = [];
-    for (const { rel, file } of PAGES) {
-      jsxElements(file, node => {
-        if (['input', 'textarea', 'select'].includes(node.tagName.getText(file))) hits.push(where(file, rel, node));
-      });
-    }
-    expect(hits, `用 Input / SecretInput / Textarea / Select / Checkbox / Radio / Slider / FileInput（见 docs/design/components.md）：\n${hits.join('\n')}`).toEqual([]);
-  });
-
-  it('form 关闭自动填充', () => {
-    const hits: string[] = [];
-    for (const { rel, file } of FILES) {
-      jsxElements(file, node => {
-        if (node.tagName.getText(file) !== 'form') return;
-        const ok = node.attributes.properties.some(attribute => ts.isJsxAttribute(attribute)
-          && attribute.name.getText(file) === 'autoComplete'
-          && attribute.initializer !== undefined && ts.isStringLiteral(attribute.initializer)
-          && attribute.initializer.text === 'off');
-        if (!ok) hits.push(where(file, rel, node));
-      });
-    }
-    expect(hits, `<form> 需要 autoComplete="off"：\n${hits.join('\n')}`).toEqual([]);
-  });
-
-  it('不用浏览器原生弹窗（docs/design/states.md）', () => {
-    const hits: string[] = [];
-    for (const { rel, source } of FILES) {
-      source.split('\n').forEach((line, i) => {
-        if (/(?<![\w.])(?:window\.)?(?:alert|confirm|prompt)\(/.test(line)) hits.push(`${rel}:${i + 1}  ${line.trim().slice(0, 100)}`);
-      });
-    }
-    expect(hits, `改用 toast / AlertDialog / Dialog：\n${hits.join('\n')}`).toEqual([]);
-  });
-
+describe('棘轮守卫', () => {
   it('原生 button 只减不增（新代码用 Button）', () => {
     const hits: string[] = [];
     for (const { rel, file } of PAGES) {

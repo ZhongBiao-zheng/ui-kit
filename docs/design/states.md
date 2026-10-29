@@ -27,4 +27,4 @@
 
 ## 守卫
 
-- 禁用 `window.alert` / `confirm` / `prompt`，分别改用 `toast`、`AlertDialog`、`Dialog` + `Input`。
+- ESLint `no-alert` 禁用 `window.alert` / `confirm` / `prompt`，分别改用 `toast`、`AlertDialog`、`Dialog` + `Input`。

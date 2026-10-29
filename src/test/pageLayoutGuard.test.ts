@@ -16,11 +16,4 @@ describe('页面骨架守卫（docs/design/layouts.md）', () => {
     const missing = PAGES.filter(({ source }) => !/<Page[\s>]/.test(source)).map(({ rel }) => rel);
     expect(missing, `用 <Page> 包住页面：\n${missing.join('\n')}`).toEqual([]);
   });
-
-  it('页面不自己写居中与最大宽度，交给 Page 的 width', () => {
-    const hits = PAGES.flatMap(({ rel, source }) => source.split('\n')
-      .map((line, i) => (/\bmx-auto\b|\bmax-w-(?!none\b)/.test(line) ? `${rel}:${i + 1}  ${line.trim().slice(0, 100)}` : null))
-      .filter((hit): hit is string => hit !== null));
-    expect(hits, `用 Page 的 width（narrow / default / full）：\n${hits.join('\n')}`).toEqual([]);
-  });
 });

@@ -1,6 +1,6 @@
 # ui-kit
 
-飙哥产品的 UI 规范模板：DESIGN.md（token + 设计理由）→ 生成 Tailwind v4 token → `components/ui` 语义组件 → vitest 守卫。本仓库本身是可运行的组件样例（Kit）。
+飙哥产品的 UI 规范模板：DESIGN.md（token + 设计理由）→ 生成 Tailwind v4 token → `components/ui` 语义组件 → ESLint 规则 + vitest 棘轮 → Storybook / Chromatic 视觉回归。本仓库本身是可运行的组件样例（Kit）。
 
 ## 命令
 

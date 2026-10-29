@@ -21,7 +21,6 @@ export function Toaster(props: ToasterProps) {
     <Sonner
       theme={theme}
       position="bottom-right"
-      className="toaster group"
       // 层级靠表面与边框，不用阴影；sonner 自带阴影的选择器优先级高于类名，只能用内联样式覆盖
       toastOptions={{ style: { boxShadow: 'none' } }}
       style={{

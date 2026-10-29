@@ -31,4 +31,5 @@
 
 ## 守卫
 
-- `src/pages` 下的页面必须用 `<Page>`，且不写 `mx-auto`（`src/test/pageLayoutGuard.test.ts`）。
+- `src/pages` 下的页面必须用 `<Page>`（`src/test/pageLayoutGuard.test.ts`）。
+- 页面里不写 `mx-auto`、`max-w-*`（ESLint）。

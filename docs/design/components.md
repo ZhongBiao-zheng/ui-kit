@@ -2,7 +2,7 @@
 
 > 页面只组合 `src/components/ui/` 的组件。视觉 token 与理由见 [DESIGN.md](../../DESIGN.md)，样例见开发环境首页（Kit）。
 > 加载、空、错误、反馈等状态的用法见 [页面状态规范](states.md)；页面结构见 [页面骨架规范](layouts.md)；交付前按 [视觉评审](review.md) 截图检查。
-> 由 `src/test/nativeControlsGuard.test.ts` 与 `src/test/designDrift.test.ts` 守卫。
+> 硬性规则由 `eslint.config.js` 执行（编辑器内实时标出），存量债务由 `src/test/ratchet.test.ts` 棘轮控制。
 
 ## 选用
 
@@ -39,7 +39,7 @@
 
 - `<form>` 一律 `autoComplete="off"`：工具类产品没有登录表单，浏览器保存密码的弹窗都是误判。
 - `variant="bare"` 只给内联编辑等外观完全自定的特殊表面，普通表单用默认配方。
-- 原生 `<button>`、`variant="bare"`、任意值间距走棘轮：只许减少，数量下降后把守卫里的基线改成新数值。
+- 原生 `<button>`、`variant="bare"`、任意值间距走棘轮：只许减少，数量下降后把 `ratchet.test.ts` 里的基线改成新数值。
 
 ## 新增组件
 
